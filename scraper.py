@@ -41,7 +41,7 @@ TYPES_MAPPING = {
 
 YEAR = str(2015)
 
-quarter = YEAR + QUARTER_MAPPING['summer']
+quarter = YEAR + QUARTER_MAPPING['spring']
 
 def get_departments():
   print('Downloading departments list...')
@@ -53,8 +53,8 @@ def get_departments():
 
 def department_classes_request(department_id):
 
-  # curl 'https://www.deanza.edu/schedule/classes/schsearch.html' 
-  # -H 'Referer: https://www.deanza.edu/schedule/classes/index.html' 
+  # curl 'https://www.deanza.edu/schedule/classes/schsearch.html'
+  # -H 'Referer: https://www.deanza.edu/schedule/classes/index.html'
   # --data 'QuarterQtr=M&QuarterYear=2015&sortBy=1&Quarter=2015M&Uniq_Course_ID=MATH&CourseID=&CourseTitle=&Instructor=&Location='
 
   headers = {
@@ -137,14 +137,14 @@ def get_class_info(row):
   meeting_location = snews.eq(6).text()
   meeting_type = get_meeting_type(meeting_title[opening_paren_index+1:closing_paren_index])
 
-  meeting = dict(time=meeting_time, days=meeting_days, instructor=meeting_instructor, 
+  meeting = dict(time=meeting_time, days=meeting_days, instructor=meeting_instructor,
     location=meeting_location, type=meeting_type)
 
   return dict(crn=crn, course=course, title=title, meetings=[meeting])
 
 def get_meeting_info(row):
   snews = row('.snews')
-  
+
   time = get_meeting_range(snews.eq(2).text())
   days = get_meeting_days(snews.eq(3).text())
   instructor = get_meeting_instructor(snews.eq(4).text())
@@ -205,7 +205,7 @@ def find_instructor_rating_info(instructor):
     instructor['rating_id'] = rating_id
     get_instructor_rating(instructor, rating_id)
 
-def get_instructor_rating(instructor, rating_id): 
+def get_instructor_rating(instructor, rating_id):
   payload = {
     'tid': rating_id
   }

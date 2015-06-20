@@ -66,9 +66,16 @@ def get_possible_class_data(crn_list):
         schedules.append(classes)
     return schedules
 
-crn_target_list = get_class_crns(['MATH-001A', 'PHYS-002A'])
+course_input = ['MATH-001A', 'PHYS-004A']
+crn_target_list = get_class_crns(course_input)
+
+for name in crn_target_list.keys():
+    print("%d units available in %s" % (len(crn_target_list[name]), name))
+print()
 
 schedules = get_possible_class_data(get_possible_schedules(crn_target_list))
+
+print("%d schedule permutations" % len(schedules))
 
 
 def is_possible(meetings_rect):
@@ -147,5 +154,8 @@ def find_possible(schedules):
 possible = sorted(find_possible(schedules),
                   key=itemgetter('rating'), reverse=True)
 
+print()
+print("Possible schedules: %d" % len(possible))
+print("Highest rating: %d" % possible[0]["rating"])
 with open('output.json', 'w') as out:
     json.dump(possible, out, indent=2)
